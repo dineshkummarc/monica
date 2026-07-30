@@ -1,0 +1,8 @@
+services:
+    - Bladestan\TemplateCompiler\PHPStan\FileAnalyserProvider
+    - Bladestan\TemplateCompiler\NodeFactory\VarDocNodeFactory
+    - Bladestan\TemplateCompiler\TypeAnalyzer\TemplateVariableTypesResolver
+    - Bladestan\TemplateCompiler\ErrorFilter
+    - Bladestan\PhpParser\SimplePhpParser
+    - Bladestan\Compiler\LivewireTagCompiler
+    - Bladestan\Compiler\FileNameAndLineNumberAddingPreCompiler

@@ -1,0 +1,67 @@
+name: Tests
+
+on:
+  push:
+    branches:
+      - main
+      - next
+      - next-major
+      - beta
+      - alpha
+  pull_request:
+    types: [opened, synchronize, reopened]
+  release:
+    types:
+      - created
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        php: [ 8.2, 8.3, 8.4 ]
+        laravel: [ 11.*, 12.*, 13.* ]
+        exclude:
+          - laravel: 13.*
+            php: 8.2
+
+    name: P${{ matrix.php }} - L${{ matrix.laravel }}
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v5
+
+      - name: Setup PHP ${{ matrix.php }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php }}
+          coverage: pcov
+          extensions: sqlite3, gmp
+          ini-values: pcov.directory=., pcov.exclude="~vendor~"
+
+      - name: Get Composer Cache Directory
+        id: composer-cache
+        run: echo "dir=$(composer config cache-files-dir)" >> $GITHUB_OUTPUT
+      - name: Cache composer files
+        uses: actions/cache@v4
+        with:
+          path: ${{ steps.composer-cache.outputs.dir }}
+          key: ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.json') }}-${{ matrix.php }}-${{ matrix.laravel }}
+          restore-keys: |
+            ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.json') }}-${{ matrix.php }}-${{ matrix.laravel }}
+            ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.json') }}-${{ matrix.php }}
+            ${{ runner.os }}-composer-v4-${{ hashFiles('**/composer.json') }}
+            ${{ runner.os }}-composer-v4-
+
+      - name: Update dependencies with Laravel ${{ matrix.laravel }}
+        run: |
+          export COMPOSER_ROOT_VERSION=dev-main
+          composer require "illuminate/support:${{ matrix.laravel }}" --no-update
+          composer update --no-interaction --no-progress --prefer-dist
+
+      - name: Setup problem matchers for PHPUnit
+        run: echo "::add-matcher::${{ runner.tool_cache }}/phpunit.json"
+      - name: Execute tests
+        run: vendor/bin/phpunit --coverage-clover=coverage.xml

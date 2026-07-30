@@ -1,0 +1,11 @@
+/vendor
+composer.lock
+*.cache
+
+# PhpStorm IDE
+/.idea
+
+# Coverage reports
+/coverage
+coverage.xml
+.phpunit.cache

@@ -1,0 +1,64 @@
+{
+    "name": "asbiin/laravel-localizer",
+    "description": "Automatically detect and set an app locale that matches your visitor's preference.",
+    "keywords": [
+        "php",
+        "laravel",
+        "browser",
+        "cookie",
+        "session",
+        "locale",
+        "language",
+        "country",
+        "localization",
+        "detect"
+    ],
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ivan Vermeyen",
+            "email": "ivan@codezero.be"
+        },
+        {
+            "name": "Alexis Saettler",
+            "email": "alexis@saettler.org"
+        }
+    ],
+    "require": {
+        "php": "^8.2",
+        "codezero/browser-locale": "^3.0",
+        "illuminate/support": "^11.0|^12.0|^13.0"
+    },
+    "require-dev": {
+        "mockery/mockery": "^1.3",
+        "orchestra/testbench": "^9.0|^10.0|^11.0",
+        "phpunit/phpunit": "^10.5|^11.0"
+    },
+    "scripts": {
+        "test": "phpunit"
+    },
+    "autoload": {
+        "psr-4": {
+            "CodeZero\\Localizer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "CodeZero\\Localizer\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "CodeZero\\Localizer\\LocalizerServiceProvider"
+            ]
+        }
+    },
+    "config": {
+        "preferred-install": "dist",
+        "sort-packages": true,
+        "optimize-autoloader": true
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

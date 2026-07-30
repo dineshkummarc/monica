@@ -1,0 +1,54 @@
+includes:
+    - template-compiler/services.neon
+
+parameters:
+    bootstrapFiles:
+        - ../bootstrap.php
+
+rules:
+    - Bladestan\Rules\BladeRule
+
+services:
+    errorFormatter.blade:
+        class: Bladestan\ErrorReporting\PHPStan\ErrorFormatter\BladeTemplateErrorFormatter
+        arguments:
+            simpleRelativePathHelper: @simpleRelativePathHelper
+            showTipsOfTheDay: %tipsOfTheDay%
+            editorUrl: %editorUrl%
+            editorUrlTitle: %editorUrlTitle%
+
+    - PhpParser\PrettyPrinter\Standard
+    - PhpParser\ConstExprEvaluator
+    - Illuminate\Filesystem\Filesystem
+
+    - Bladestan\Laravel\View\BladeCompilerFactory
+    -
+        class: Illuminate\View\Compilers\BladeCompiler
+        factory: ['@Bladestan\Laravel\View\BladeCompilerFactory', 'create']
+
+    - Bladestan\ViewRuleHelper
+    - Bladestan\Blade\PhpLineToTemplateLineResolver
+    - Bladestan\ErrorReporting\Blade\TemplateErrorsFactory
+    - Bladestan\NodeAnalyzer\TemplateFilePathResolver
+    - Bladestan\NodeAnalyzer\LaravelViewFunctionMatcher
+    - Bladestan\NodeAnalyzer\MailablesContentMatcher
+    - Bladestan\NodeAnalyzer\BladeViewMethodsMatcher
+    - Bladestan\NodeAnalyzer\ViewDataParametersAnalyzer
+    - Bladestan\NodeAnalyzer\ViewVariableAnalyzer
+    - Bladestan\NodeAnalyzer\CompactFunctionCallParameterResolver
+    - Bladestan\NodeAnalyzer\MagicViewWithCallParameterResolver
+    - Bladestan\NodeAnalyzer\ClassPropertiesResolver
+    - Bladestan\NodeAnalyzer\ValueResolver
+    - Bladestan\Compiler\BladeToPHPCompiler
+    - Bladestan\PhpParser\NodeVisitor\BladeLineNumberNodeVisitor
+    - Bladestan\PhpParser\ArrayStringToArrayConverter
+
+    -
+        class: Bladestan\PhpParser\NodeVisitor\ViewFunctionArgumentsNodeVisitor
+        tags:
+            - phpstan.parser.richParserNodeVisitor
+
+    -
+        class: Bladestan\PHPStan\BladeSignatureCacheMetaExtension
+        tags:
+            - phpstan.resultCacheMetaExtension

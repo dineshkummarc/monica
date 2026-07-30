@@ -1,0 +1,97 @@
+{
+    "name": "asbiin/laravel-webauthn",
+    "description": "Laravel Webauthn support",
+    "keywords": [
+        "laravel",
+        "php",
+        "webauthn",
+        "security"
+    ],
+    "type": "library",
+    "license": "MIT",
+    "support": {
+        "issues": "https://github.com/asbiin/laravel-webauthn/issues",
+        "source": "https://github.com/asbiin/laravel-webauthn"
+    },
+    "authors": [
+        {
+            "name": "Alexis Saettler",
+            "email": "alexis@saettler.org"
+        }
+    ],
+    "require": {
+        "php": ">=8.2",
+        "illuminate/support": "^11.0 || ^12.0 || ^13.0",
+        "psr/http-factory-implementation": "1.0",
+        "symfony/property-access": "^6.4 || ^7.0",
+        "symfony/property-info": "^6.4 || ^7.0",
+        "symfony/serializer": "^6.4 || ^7.0",
+        "web-auth/cose-lib": "^4.0",
+        "web-auth/webauthn-lib": "^4.8 || ^5.2",
+        "web-token/jwt-library": "^3.0 || ^4.0"
+    },
+    "conflict": {
+        "web-auth/webauthn-lib": "4.7.0"
+    },
+    "require-dev": {
+        "ext-sqlite3": "*",
+        "brainmaestro/composer-git-hooks": "^3.0",
+        "guzzlehttp/psr7": "^2.1",
+        "larastan/larastan": "^2.0 || ^3.0",
+        "laravel/legacy-factories": "^1.0",
+        "laravel/pint": "^1.13",
+        "ocramius/package-versions": "^2.0",
+        "orchestra/testbench": "^9.0 || ^10.0 || ^11.0",
+        "phpstan/phpstan-deprecation-rules": "^1.0 || ^2.0",
+        "phpstan/phpstan-phpunit": "^1.0 || ^2.0",
+        "phpstan/phpstan-strict-rules": "^1.0 || ^2.0",
+        "phpunit/phpunit": "^10.0 || ^11.0 || ^12.0",
+        "psalm/plugin-laravel": "^2.8 || ^3.0 || ^4.0"
+    },
+    "suggest": {
+        "guzzlehttp/psr7": "To provide a psr/http-factory-implementation implementation",
+        "symfony/psr-http-message-bridge": "To find a psr/http-factory-implementation implementation",
+        "php-http/discovery": "To find a psr/http-factory-implementation implementation",
+        "psr/http-client-implementation": "Required for the AndroidSafetyNet Attestation Statement support"
+    },
+    "autoload": {
+        "psr-4": {
+            "LaravelWebauthn\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "LaravelWebauthn\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "LaravelWebauthn\\WebauthnServiceProvider"
+            ]
+        },
+        "hooks": {
+            "config": {
+                "stop-on-failure": [
+                    "pre-commit"
+                ]
+            },
+            "pre-commit": [
+                "files=$(git diff --staged --name-only);\"$(dirname \"$0\")/../../vendor/bin/pint\" $files; git add $files"
+            ]
+        }
+    },
+    "scripts": {
+        "cghooks": "vendor/bin/cghooks",
+        "post-install-cmd": "cghooks add --ignore-lock",
+        "post-update-cmd": "cghooks update"
+    },
+    "config": {
+        "sort-packages": true,
+        "allow-plugins": {
+            "composer/package-versions-deprecated": true
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}

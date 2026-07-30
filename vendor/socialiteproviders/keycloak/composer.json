@@ -1,0 +1,33 @@
+{
+    "name": "socialiteproviders/keycloak",
+    "description": "Keycloak OAuth2 Provider for Laravel Socialite",
+    "license": "MIT",
+    "keywords": [
+        "keycloak",
+        "laravel",
+        "oauth",
+        "provider",
+        "socialite"
+    ],
+    "authors": [
+        {
+            "name": "Oleg Kuchumov",
+            "email": "voenniy@gmail.com"
+        }
+    ],
+    "support": {
+        "issues": "https://github.com/socialiteproviders/providers/issues",
+        "source": "https://github.com/socialiteproviders/providers",
+        "docs": "https://socialiteproviders.com/keycloak"
+    },
+    "require": {
+        "php": "^7.4 || ^8.0",
+        "ext-json": "*",
+        "socialiteproviders/manager": "~4.0"
+    },
+    "autoload": {
+        "psr-4": {
+            "SocialiteProviders\\Keycloak\\": ""
+        }
+    }
+}

@@ -1,0 +1,65 @@
+{
+  "name": "uploadcare/uploadcare-php",
+  "description": "Uploadcare PHP integration handles uploads and further operations with files by wrapping Upload and REST APIs.",
+  "type": "library",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Uploadcare, Inc",
+      "email": "hello@uploadcare.com"
+    }
+  ],
+  "keywords": [
+    "files",
+    "upload",
+    "cdn",
+    "uploadcare",
+    "image management",
+    "cloud"
+  ],
+  "homepage": "https://uploadcare.com",
+  "support": {
+    "email": "help@uploadcare.com",
+    "issues": "https://github.com/uploadcare/uploadcare-php/issues"
+  },
+  "minimum-stability": "stable",
+  "require": {
+    "php": ">=7.4 || >=8.0",
+    "ext-curl": "*",
+    "ext-json": "*",
+    "guzzlehttp/guzzle": "^7.5",
+    "guzzlehttp/psr7": "^2.4",
+    "symfony/polyfill-php80": "^1.26",
+    "symfony/polyfill-uuid": "^1.26"
+  },
+  "require-dev": {
+    "fakerphp/faker": "^1.20",
+    "friendsofphp/php-cs-fixer": "^3.11",
+    "phpunit/phpunit": "^9.5",
+    "rector/rector": "^2.1",
+    "symfony/string": "^6.4",
+    "symfony/dotenv": "^5.4",
+    "symfony/var-dumper": "^5.4",
+    "vimeo/psalm": "^4.27"
+  },
+  "autoload": {
+    "psr-4": {
+      "Uploadcare\\": "./src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Tests\\": "tests"
+    }
+  },
+  "config": {
+    "optimize-autoloader": true,
+    "preferred-install": {
+      "*": "dist"
+    },
+    "sort-packages": true,
+    "allow-plugins": {
+      "composer/package-versions-deprecated": true
+    }
+  }
+}

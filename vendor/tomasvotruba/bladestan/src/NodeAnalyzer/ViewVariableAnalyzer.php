@@ -1,0 +1,54 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Bladestan\NodeAnalyzer;
+
+use Illuminate\Contracts\Support\Arrayable;
+use PhpParser\Node\Expr;
+use PHPStan\Analyser\Scope;
+use PHPStan\Reflection\ParametersAcceptorSelector;
+use PHPStan\Type\Constant\ConstantIntegerType;
+use PHPStan\Type\Constant\ConstantStringType;
+use PHPStan\Type\ObjectType;
+use PHPStan\Type\Type;
+use ValueError;
+
+final class ViewVariableAnalyzer
+{
+    /**
+     * Resolve view function call if the data is a variable.
+     *
+     * @return array<string, Type>
+     *
+     * @throws ValueError
+     */
+    public function resolve(Expr $expr, Scope $scope): array
+    {
+        $parametersArray = [];
+
+        $type = $scope->getType($expr);
+
+        $objectType = new ObjectType(Arrayable::class);
+        if ($objectType->isSuperTypeOf($type)->yes()) {
+            $extendedMethodReflection = $type->getMethod('toArray', $scope);
+            $type = ParametersAcceptorSelector::selectFromArgs(
+                $scope,
+                [],
+                $extendedMethodReflection->getVariants()
+            )->getReturnType();
+        }
+
+        $constantArrays = $type->getConstantArrays();
+
+        if (count($constantArrays) !== 1) {
+            return $parametersArray;
+        }
+
+        $keyTypes = array_map(function (ConstantIntegerType|ConstantStringType $keyType): string {
+            return (string) $keyType->getValue();
+        }, $constantArrays[0]->getKeyTypes());
+
+        return array_combine($keyTypes, $constantArrays[0]->getValueTypes());
+    }
+}

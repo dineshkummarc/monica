@@ -1,0 +1,9 @@
+/vendor/
+/composer.lock
+/.php_cs
+/.php_cs.cache
+/tests/.env.local
+/psalm.phar
+.phpunit.result.cache
+.php-cs-fixer.cache
+/rector-cache

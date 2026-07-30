@@ -1,0 +1,29 @@
+services:
+  -
+    class: TheCodingMachine\Safe\PHPStan\Rules\UseSafeCallablesRule
+    tags:
+      - phpstan.rules.rule
+  -
+    class: TheCodingMachine\Safe\PHPStan\Rules\UseSafeFunctionsRule
+    tags:
+      - phpstan.rules.rule
+  -
+    class: TheCodingMachine\Safe\PHPStan\Rules\UseSafeClassesRule
+    tags:
+      - phpstan.rules.rule
+  -
+    class: TheCodingMachine\Safe\PHPStan\Type\Php\ReplaceSafeFunctionsDynamicReturnTypeExtension
+    tags:
+      - phpstan.broker.dynamicFunctionReturnTypeExtension
+  -
+    class: TheCodingMachine\Safe\PHPStan\Type\Php\PregMatchParameterOutTypeExtension
+    tags:
+      - phpstan.functionParameterOutTypeExtension
+  -
+    class: TheCodingMachine\Safe\PHPStan\Type\Php\PregMatchTypeSpecifyingExtension
+    tags:
+      - phpstan.typeSpecifier.functionTypeSpecifyingExtension
+  -
+      class: TheCodingMachine\Safe\PHPStan\Type\Php\JsonDecodeDynamicReturnTypeExtension
+      tags:
+        - phpstan.broker.dynamicFunctionReturnTypeExtension
